@@ -1,7 +1,4 @@
 class BookmarksController < ApplicationController
-  def index
-    @bookmarks = Bookmark.all
-  end
 
   def new
     @list = List.find(params[:list_id])
@@ -13,12 +10,14 @@ class BookmarksController < ApplicationController
     @bookmark = Bookmark.new(bookmarks_params)
     @bookmark.list_id = @list.id
     @bookmark.save
-    redirect_to list_bookmarks_path
+    redirect_to list_path(@list)
   end
 
   def destroy
+    @list = List.find(params[:list_id])
     @bookmark = Bookmark.find(params[:id])
     @bookmark.destroy
+    redirect_to list_path(@list)
   end
 
   private
